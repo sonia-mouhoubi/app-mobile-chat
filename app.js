@@ -1,7 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
-const app = express();
+const router = require('./routes/router');
 
 mongoose.connect('mongodb+srv://sonia:FXVQ4wcSoFAHaMLJ@cluster0.eqomemd.mongodb.net/api_nodejs?retryWrites=true&w=majority',
   { useNewUrlParser: true,
@@ -9,6 +8,7 @@ mongoose.connect('mongodb+srv://sonia:FXVQ4wcSoFAHaMLJ@cluster0.eqomemd.mongodb.
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
+const app = express();
 app.use((req, res, next) => {
     // Sert à régler le problème de CORS)
     // On donne l'autorisation à tous le monde d'utiliser notre API (Orign : qui à le droit d'accéder à notre API, * tous le mode)
@@ -20,33 +20,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('/test', (req, res, next) => {
-    const stuff = [
-      {
-        _id: 'oeihfzeoi',
-        title: 'Mon premier objet',
-        description: 'Les infos de mon premier objet',
-        // imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
-        price: 4900,
-        userId: 'qsomihvqios',
-      },
-      {
-        _id: 'oeihfzeomoihi',
-        title: 'Mon deuxième objet',
-        description: 'Les infos de mon deuxième objet',
-        // imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
-        price: 2900,
-        userId: 'qsomihvqios',
-      },
-    ];
-    res.status(200).json(stuff);
-  });
-
-  app.post('/test2', (req, res, next) => {
-    console.log(req.body);
-    res.status(201).json({
-      message: 'Objet créé !'
-    });
-  });
+app.use('user', router)
 
 module.exports = app;
