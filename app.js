@@ -2,15 +2,19 @@ const express = require('express');
 const mongoose = require('mongoose');
 const router = require('./routes/router');
 
-mongoose.connect('mongodb+srv://sonia:FXVQ4wcSoFAHaMLJ@cluster0.eqomemd.mongodb.net/api_nodejs?retryWrites=true&w=majority',
+// Connexion à la bdd 
+mongoose.connect('mongodb+srv://sonia:FXVQ4wcSoFAHaMLJ@cluster0.eqomemd.mongodb.net/api_chat',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
 const app = express();
+// Encoder au format JSON (parser)
+app.use(express.urlencoded({ extended: true}));
+app.use(express.json()); 
+// Sert à régler le problème de CORS)
 app.use((req, res, next) => {
-    // Sert à régler le problème de CORS)
     // On donne l'autorisation à tous le monde d'utiliser notre API (Orign : qui à le droit d'accéder à notre API, * tous le mode)
     res.setHeader('Access-Control-Allow-Origin', '*');
     // On donne l'autorisation d'utiliser certaine entête, certain headers sur l'objet request
@@ -20,6 +24,6 @@ app.use((req, res, next) => {
     next();
 });
 
-app.use('user', router)
+app.use('/', router)
 
 module.exports = app;
