@@ -7,7 +7,12 @@ const modelUser = mongoose.Schema({
   password: {type: String, require: true, trim: true },
   firstname: {type: String, require: true, trim: true, minlength: 2, maxlenght: 100},
   lastname: {type: String, require: true, trim: true, minlength: 2, maxlenght: 100},
-  role: {type: String, require: true, trim: true },  
+  roles: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Role"
+    }
+  ],  
 }, { timestamps:true});
 
 // Package pour ne pas avoir le même login lors de l'inscription

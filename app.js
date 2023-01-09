@@ -1,9 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const router = require('./routes/router');
+require('dotenv').config();
+const connectDB = process.env.MONGO 
+// mongoose.connect();
 
 // Connexion à la bdd 
-mongoose.connect('mongodb+srv://sonia:FXVQ4wcSoFAHaMLJ@cluster0.eqomemd.mongodb.net/api_chat',
+mongoose.connect(`mongodb+srv://${connectDB}`,
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
