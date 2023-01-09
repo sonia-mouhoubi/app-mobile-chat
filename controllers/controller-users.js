@@ -48,7 +48,7 @@ exports.login = (req, res, next) => {
 
 // Afficher tous les utilisateurs
 exports.getAllUsers = (req, res, next) => {
-    User.find().sort("-_id").select("firstname lastname password").then(
+    User.find().sort("-_id").select("firstname lastname").then(
       (resultat) => {
         res.status(200).json(resultat);
       }
@@ -60,3 +60,48 @@ exports.getAllUsers = (req, res, next) => {
       }
     );
   };
+
+// Afficher un utilisateur
+exports.getUser = (req, res, next) => {
+  User.findOne({ _id: req.params.id }).select("-_id email firstname lastname").then(
+    (resultat) => {
+      res.status(200).json(resultat);
+    }
+  ).catch(
+    (error) => {
+      res.status(404).json({
+        error: error
+      });
+    }
+  );
+};
+
+// Modifier un utilisateur 
+exports.updateUser = (req, res, next) => {
+  User.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id }).then(
+    (resultat) => {
+      res.status(200).json(resultat);
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+  );
+};
+
+// Supprimer un utilisateur 
+exports.deleteUser = (req, res, next) => {
+  User.deleteOne({ _id: req.params.id }).then(
+    (resultat) => {
+      res.status(200).json(resultat);
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+  );
+};
