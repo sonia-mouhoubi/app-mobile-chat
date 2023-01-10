@@ -7,10 +7,11 @@ const modelUser = mongoose.Schema({
   password: {type: String, require: true, trim: true },
   firstname: {type: String, require: true, trim: true, minlength: 2, maxlenght: 100},
   lastname: {type: String, require: true, trim: true, minlength: 2, maxlenght: 100},
-  roles: [
+  admin: {type: Boolean, require: true, default: false },
+  message: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Role"
+      ref: "Messages"
     }
   ],  
 }, { timestamps:true});

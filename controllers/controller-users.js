@@ -35,7 +35,7 @@ exports.login = (req, res, next) => {
                     res.status(200).json({
                         userId: user._id,
                         token: jwt.sign(
-                            { userId: user._id },
+                            { userId: user._id, admin: user.admin },
                             'RANDOM_TOKEN_SECRET',
                             { expiresIn: '24h' }
                         )
@@ -94,6 +94,23 @@ exports.updateUser = (req, res, next) => {
 // Supprimer un utilisateur 
 exports.deleteUser = (req, res, next) => {
   User.deleteOne({ _id: req.params.id }).then(
+    (resultat) => {
+      res.status(200).json(resultat);
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+  );
+};
+
+exports.sendMessage = (req, res, next) => {
+  const user = new User({ 
+    messages: req.body.messages
+});
+  user.save().then(
     (resultat) => {
       res.status(200).json(resultat);
     }
