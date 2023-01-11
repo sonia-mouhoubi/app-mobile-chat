@@ -11,7 +11,7 @@ router.get('/users', auth, authAdmin, ctrlUsers.getAllUsers);
 router.get('/users/:id', ctrlUsers.getUser);
 router.put('/users/:id', auth, authAdmin, ctrlUsers.updateUser);
 router.delete('/users/:id', auth, authAdmin, ctrlUsers.deleteUser);
-router.post('/send', ctrlUsers.sendMessage);
+router.post('/send', auth, ctrlUsers.sendMessage);
 
 
 

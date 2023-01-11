@@ -1,4 +1,6 @@
 const User = require('../models/Users');
+const Message = require('../models/Message');
+
 const bcrypt = require('bcrypt');
 // Importer le token d'authentification
 const jwt = require('jsonwebtoken');
@@ -106,15 +108,15 @@ exports.deleteUser = (req, res, next) => {
   );
 };
 
+// Envoyer un message
 exports.sendMessage = (req, res, next) => {
-  const user = new User({ 
-    messages: req.body.messages
+  const message = new Message({ 
+    idUser: req.auth.userId,
+    message: req.body.message
 });
-  user.save().then(
-    (resultat) => {
-      res.status(200).json(resultat);
-    }
-  ).catch(
+message.save()
+.then(() => res.status(201).json({ message: 'Message envoyé !' }))
+.catch(
     (error) => {
       res.status(400).json({
         error: error
