@@ -4,21 +4,25 @@ const auth = require('../middleware/auth');
 const authAdmin = require('../middleware/auth-admin');
 
 const ctrlUsers = require('../controllers/controller-users');
+const ctrlMessages = require('../controllers/controller-messages');
+
 
 router.post('/signup', ctrlUsers.signup);
 router.post('/login', ctrlUsers.login);
-router.get('/users', auth, authAdmin, ctrlUsers.getAllUsers);
-router.get('/users/:id', ctrlUsers.getUser);
+// Utilisateur connecté / Annuaire
+router.get('/users', auth, ctrlUsers.getAllUsers);
+router.get('/users/:id', auth, ctrlUsers.getUser);
+// Chat
+router.post('/send', auth, ctrlMessages.sendMessage);
+router.get('/messages', auth, ctrlMessages.getMessages);
+// Profil
+router.get('/profil/:id', auth, ctrlUsers.getAllUsers);
+router.put('/profil/:id', auth, ctrlUsers.getAllUsers);
+router.delete('/profil/:id', auth, ctrlUsers.getAllUsers);
+
+// Route accessible par l'Admin
 router.put('/users/:id', auth, authAdmin, ctrlUsers.updateUser);
 router.delete('/users/:id', auth, authAdmin, ctrlUsers.deleteUser);
-router.post('/send', auth, ctrlUsers.sendMessage);
-
-
-
-
-
-// router.get('/:id', ctrlUsers.getOneUser);
-// router.put('/:id', ctrlUsers.modifyUser);
-// router.delete('/:id', ctrlUsers.deleteUser);
+router.delete('/messages/:id', auth, authAdmin, ctrlMessages.deleteMessage);
 
 module.exports = router;

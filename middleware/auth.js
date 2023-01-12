@@ -6,7 +6,7 @@ module.exports = (req, res, next) => {
        const payload = jwt.verify(token, 'RANDOM_TOKEN_SECRET');
        req.auth = {
            userId: payload.userId,
-           admin: payload.admin
+           admin: payload.admin,
        };
 	next();
    } catch(error) {

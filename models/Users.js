@@ -7,10 +7,7 @@ const modelUser = mongoose.Schema({
   firstname: {type: String, require: true, trim: true, minlength: 2, maxlenght: 100},
   lastname: {type: String, require: true, trim: true, minlength: 2, maxlenght: 100},
   admin: {type: Boolean, require: true, default: false },
-  message: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Message"
-    },  
+
 }, { timestamps:true});
 
 // Package pour ne pas avoir le même login lors de l'inscription
