@@ -77,6 +77,23 @@ exports.getUser = (req, res, next) => {
   );
 };
 
+// PROFIL
+// Afficher son profil
+exports.getProfil = (req, res, next) => {
+  User.findOne({ _id: req.params.id }).select("-_id email password firstname lastname").then(
+    (resultat) => {
+      res.status(200).json(resultat);
+    }
+  ).catch(
+    (error) => {
+      res.status(404).json({
+        error: error
+      });
+    }
+  );
+};
+
+// ADMIN
 // Modifier un utilisateur 
 exports.updateUser = (req, res, next) => {
   User.updateOne({ _id: req.params.id }, { ...req.body, _id: req.params.id }).then(
