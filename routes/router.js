@@ -16,9 +16,9 @@ router.get('/users/:id', auth, ctrlUsers.getUser);
 router.post('/send', auth, ctrlMessages.sendMessage);
 router.get('/messages', auth, ctrlMessages.getMessages);
 // Profil
-router.get('/profil/:id', auth, ctrlUsers.getAllUsers);
-router.put('/profil/:id', auth, ctrlUsers.getAllUsers);
-router.delete('/profil/:id', auth, ctrlUsers.getAllUsers);
+router.get('/profil/me', auth, ctrlUsers.getProfil);
+router.put('/profil/me', auth, ctrlUsers.updateProfil);
+router.delete('/profil/me', auth, ctrlUsers.deleteProfil);
 
 // Route accessible par l'Admin
 router.put('/users/:id', auth, authAdmin, ctrlUsers.updateUser);

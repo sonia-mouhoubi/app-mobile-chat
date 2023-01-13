@@ -80,7 +80,44 @@ exports.getUser = (req, res, next) => {
 // PROFIL
 // Afficher son profil
 exports.getProfil = (req, res, next) => {
-  User.findOne({ _id: req.params.id }).select("-_id email password firstname lastname").then(
+  User.findOne({ _id: req.auth.userId} ).select("-_id email firstname lastname").then(
+    (resultat) => {
+      res.status(200).json(resultat);
+    }
+  ).catch(
+    (error) => {
+      res.status(404).json({
+        error: error
+      });
+    }
+  );
+};
+
+// Modifier son profil
+exports.updateProfil = (req, res, next) => {
+  User.updateOne({ _id: req.auth.userId}, { 
+    $set: { 
+      firstname: req.body.firstname,
+      lastname: req.body.lastname,
+      email: req.body.email,
+      password: req.body.password
+    } })
+    .then(
+    (resultat) => {
+      res.status(200).json(resultat);
+    }
+  ).catch(
+    (error) => {
+      res.status(404).json({
+        error: error
+      });
+    }
+  );
+};
+
+// Supprimer son profil
+exports.deleteProfil = (req, res, next) => {
+  User.deleteOne({ _id: req.auth.userId} ).then(
     (resultat) => {
       res.status(200).json(resultat);
     }
